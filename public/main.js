@@ -1,9 +1,16 @@
 $(document).ready(function(){
 	// var jsEditor = CodeMirror.fromTextArea($("#js_editor").get(0), {mode: "javascript", lineNumbers: true});
-	var cssEditor = CodeMirror.fromTextArea($("#css_editor").get(0), {mode: "css", lineNumbers: true})
-	var htmlEditor = CodeMirror.fromTextArea($("#html_editor").get(0), {mode: "htmlmixed", lineNumbers: true})
+	var cssEditor = CodeMirror.fromTextArea($("#css_editor").get(0), {mode: "css", lineNumbers: true, theme: "neo"});
+	var htmlEditor = CodeMirror.fromTextArea($("#html_editor").get(0), {mode: "htmlmixed", lineNumbers: true, theme: "neo"});
 
 	
+function makeTinyUrl(url, func)
+{
+	func(url);
+    // $.getJSON('https://json-tinyurl.appspot.com/?url=' + url + '&callback=?', func);
+}
+
+
 
 	function compile () {
         var d= frames[0].document;
@@ -29,39 +36,63 @@ $(document).ready(function(){
 	var client = new Dropbox.Client({ key: 'm0ut1fiorueyzy8' });
 
 	client.authenticate(function(error, data) {
-	    if (error) { return showError(error); }
-
+	    if (error) {
+	    	console.log("Authentication Error");
+	    	console.log(error);
+	    }
 	});
 
 	function saveOnDropbox(func){
+
 		if($("#UIName").val().trim() === ""){
-			alert("Please give a name");
+			alert("Please give a name to your UI snippet");
 			$("#UIName").focus();
 			return;
 		}
 
+		client.authenticate(function(error, data) {
+		    if (error) {
+		    	consle.log("Authentication Error");
+		    	console.log(error);
+		    }
+		});
+
 		if(client.isAuthenticated()){
-			var hello = client.writeFile($("#UIName").val(), $("#UIName").val() + "\n\n\n######\n\n\n" + cssEditor.getValue() + "\n\n\n######\n\n\n" + htmlEditor.getValue(), function (error) {
+			var data = {};
+			data.name = $("#UIName").val();
+			data.css = cssEditor.getValue();
+			data.html = htmlEditor.getValue();
+			console.log(JSON.stringify(data));
+			var hello = client.writeFile(data.name, JSON.stringify(data), function (error) {
 				if (error) {
 					alert('Error: ' + error);
 				} else {
-					func && func();
+					if(func){
+
+						func();
+					}
 				}
 			});		 
 		}
 	}
 
 	function getParameterByName(name) {
-    name = name.replace(/[\[]/, "\\[").replace(/[\]]/, "\\]");
-    var regex = new RegExp("[\\?&]" + name + "=([^&#]*)"),
-        results = regex.exec(location.search);
-    return results == null ? "" : decodeURIComponent(results[1].replace(/\+/g, " "));
+	    name = name.replace(/[\[]/, "\\[").replace(/[\]]/, "\\]");
+	    var regex = new RegExp("[\\?&]" + name + "=([^&#]*)"),
+	        results = regex.exec(location.search);
+
+	    return results == null ? "" : decodeURIComponent(results[1].replace(/\+/g, " "));
 	}
 
 	function makePublic(){
 		if(client.isAuthenticated()){
 			client.makeUrl($("#UIName").val(), {longUrl: true}, function(error, shareUrl){
-				$("#shareUrl").val(shareUrl.url.replace("https://www.dropbox.com", "http://localhost:8000?share="));
+				var func = function(data){
+					$("#shareUrl").val(data);
+				}
+
+				makeTinyUrl(shareUrl.url.replace("https://www.dropbox.com", location.origin + location.pathname + "?share="), func);
+				
 			});
 		}
 	}
@@ -70,6 +101,8 @@ $(document).ready(function(){
 		var url = getParameterByName("share");
 		console.log(url);
 		readFromDropbox(url);
+	} else {
+		readFromDropbox("/s/4xa5uasyoanbod0/Init");
 	}
 
 	function readFromDropbox(id){
@@ -77,11 +110,10 @@ $(document).ready(function(){
 		  url: "https://dl.dropboxusercontent.com/" + id,
 		  data: {},
 		  success: function(data){
-		  	console.log(data);
-		  	var split = data.split("\n\n\n######\n\n\n");
-		  	$("#UIName").val(split[0]);
-		  	cssEditor.setValue(split[1]);
-		  	htmlEditor.setValue(split[2]);
+		  	var file = JSON.parse(data);
+		  	$("#UIName").val(file.name);
+		  	cssEditor.setValue(file.css);
+		  	htmlEditor.setValue(file.html);
 		  },
 		  dataType: "text"
 		});
@@ -107,7 +139,6 @@ $(document).ready(function(){
 	function loadFile(){
 		var options = {
 			success: function(files) {
-				console.log(files[0].link);
 				var lnk = files[0].link.replace("https://www.dropbox.com", "");
 				readFromDropbox(lnk);
     		}
