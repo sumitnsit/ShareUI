@@ -58,13 +58,21 @@ function makeTinyUrl(url, func)
 				} else if(event.keyCode === 38){
 					cssEditor.replaceSelection("" +  (parseInt(selectedText)+1), "around");
 				}
-			} else if (/^-?\d+px$/.test(selectedText)){
+			} else if (/^-?\d+px$/i.test(selectedText)){
 				var val = selectedText.substring(0, selectedText.length-2);
 				if(event.keyCode === 40){
 					cssEditor.replaceSelection("" + (parseInt(val)-1) + "px", "around");
 				} else if(event.keyCode === 38){
 					cssEditor.replaceSelection("" +  (parseInt(val)+1) + "px", "around");
 				}
+			} else if(/^-?\d+\.?\d+EM$/i.test(selectedText)){
+				var val = selectedText.substring(0, selectedText.length-2);
+				val = parseFloat(val);
+				if(event.keyCode === 40){
+					cssEditor.replaceSelection("" + (val-0.05).toFixed(2) + "em", "around");
+				} else if(event.keyCode === 38){
+					cssEditor.replaceSelection("" +  (val+0.05).toFixed(2) + "em", "around");
+				}				
 			}
 			event.preventDefault();	
 		}
