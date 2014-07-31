@@ -78,8 +78,6 @@ function makeTinyUrl(url, func)
 				event.preventDefault();		
 			}	
 		}
-		
-		
 	}
 
 	cssEditor.on("keydown", keyDownValueChange);
@@ -88,30 +86,29 @@ function makeTinyUrl(url, func)
 	cssEditor.on("dblclick", colorSelected);
 	htmlEditor.on("change", compile);
 
-	var client = new Dropbox.Client({ key: 'm0ut1fiorueyzy8' });
+	var client = null; 
 
-	client.authenticate(function(error, data) {
-	    if (error) {
-	    	console.log("Authentication Error");
-	    	console.log(error);
-	    }
-	});
+	function init(){
+	 	
+	 	client = new Dropbox.Client({ key: 'm0ut1fiorueyzy8' });
+		client.authenticate(function(error, data) {
+		    if (error) {
+		    	console.log("Authentication Error");
+		    	console.log(error);
+		    	return false;
+		    }
+		});
+	}
 
 
 	function saveOnDropbox(func){
-
 		if($("#UIName").val().trim() === ""){
 			alert("Please give a name to your UI snippet");
 			$("#UIName").focus();
 			return;
 		}
 
-		client.authenticate(function(error, data) {
-		    if (error) {
-		    	consle.log("Authentication Error");
-		    	console.log(error);
-		    }
-		});
+		init();
 
 		if(client.isAuthenticated()){
 			var data = {};
@@ -123,7 +120,7 @@ function makeTinyUrl(url, func)
 				if (error) {
 					alert('Error: ' + error);
 				} else {
-					if(func){
+					if(typeof func === 'function'){
 
 						func();
 					}
