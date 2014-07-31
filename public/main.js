@@ -1,6 +1,8 @@
+var cssEditor = null;
+
 $(document).ready(function(){
 	// var jsEditor = CodeMirror.fromTextArea($("#js_editor").get(0), {mode: "javascript", lineNumbers: true});
-	var cssEditor = CodeMirror.fromTextArea($("#css_editor").get(0), {mode: "css", lineNumbers: true, theme: "neo"});
+	cssEditor = CodeMirror.fromTextArea($("#css_editor").get(0), {mode: "css", lineNumbers: true, theme: "neo"});
 	var htmlEditor = CodeMirror.fromTextArea($("#html_editor").get(0), {mode: "htmlmixed", lineNumbers: true, theme: "neo"});
 
 	
@@ -30,7 +32,28 @@ function makeTinyUrl(url, func)
 	}
 
 
+	function colorSelected(){
+		var myPicker = $("#colorPicker").get(0).color;
+		var selectedColor = cssEditor.getSelection();
+		if(checkHex(selectedColor)){
+			$("#colorPicker").css("left", event.pageX);
+			$("#colorPicker").css("top", event.pageY);
+			myPicker.fromString(selectedColor);
+		  myPicker.showPicker();
+		}
+	}
+
+	function hidePicker(){
+		var myPicker = $("#colorPicker").get(0).color;
+		myPicker.hidePicker();
+	}
+
+
+
+	// $("#color_picker").on("change", colorChanged);
 	cssEditor.on("change", compile);
+	cssEditor.on("mousedown", hidePicker);
+	cssEditor.on("dblclick", colorSelected);
 	htmlEditor.on("change", compile);
 
 	var client = new Dropbox.Client({ key: 'm0ut1fiorueyzy8' });
@@ -41,6 +64,7 @@ function makeTinyUrl(url, func)
 	    	console.log(error);
 	    }
 	});
+
 
 	function saveOnDropbox(func){
 
@@ -150,3 +174,15 @@ function makeTinyUrl(url, func)
 	$("#share").on('click', sharePublic);
 	$("#save").on('click', null, false, saveOnDropbox);
 });
+
+
+function checkHex(color) {
+    return /(^[0-9A-F]{6}$)|(^[0-9A-F]{3}$)/i.test(color);
+}
+
+function colorChanged(color){
+	var selected = cssEditor.getSelection();
+	if(checkHex(selected)){
+		cssEditor.replaceSelection(color.toString(), "around");
+	}
+}
