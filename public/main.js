@@ -49,8 +49,30 @@ function makeTinyUrl(url, func)
 	}
 
 
+	function keyDownValueChange(){
+		var selectedText = cssEditor.getSelection();
+		if(selectedText && (event.keyCode === 38 || event.keyCode === 40)){
+			if(/^-?\d+$/.test(selectedText)){
+				if(event.keyCode === 40){
+					cssEditor.replaceSelection("" + (parseInt(selectedText)-1), "around");
+				} else if(event.keyCode === 38){
+					cssEditor.replaceSelection("" +  (parseInt(selectedText)+1), "around");
+				}
+			} else if (/^-?\d+px$/.test(selectedText)){
+				var val = selectedText.substring(0, selectedText.length-2);
+				if(event.keyCode === 40){
+					cssEditor.replaceSelection("" + (parseInt(val)-1) + "px", "around");
+				} else if(event.keyCode === 38){
+					cssEditor.replaceSelection("" +  (parseInt(val)+1) + "px", "around");
+				}
+			}
+			event.preventDefault();	
+		}
+		
+		
+	}
 
-	// $("#color_picker").on("change", colorChanged);
+	cssEditor.on("keydown", keyDownValueChange);
 	cssEditor.on("change", compile);
 	cssEditor.on("mousedown", hidePicker);
 	cssEditor.on("dblclick", colorSelected);
