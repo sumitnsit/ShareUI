@@ -58,6 +58,7 @@ function makeTinyUrl(url, func)
 				} else if(event.keyCode === 38){
 					cssEditor.replaceSelection("" +  (parseInt(selectedText)+1), "around");
 				}
+				event.preventDefault();	
 			} else if (/^-?\d+px$/i.test(selectedText)){
 				var val = selectedText.substring(0, selectedText.length-2);
 				if(event.keyCode === 40){
@@ -65,6 +66,7 @@ function makeTinyUrl(url, func)
 				} else if(event.keyCode === 38){
 					cssEditor.replaceSelection("" +  (parseInt(val)+1) + "px", "around");
 				}
+				event.preventDefault();	
 			} else if(/^-?\d+\.?\d+EM$/i.test(selectedText)){
 				var val = selectedText.substring(0, selectedText.length-2);
 				val = parseFloat(val);
@@ -72,9 +74,9 @@ function makeTinyUrl(url, func)
 					cssEditor.replaceSelection("" + (val-0.05).toFixed(2) + "em", "around");
 				} else if(event.keyCode === 38){
 					cssEditor.replaceSelection("" +  (val+0.05).toFixed(2) + "em", "around");
-				}				
-			}
-			event.preventDefault();	
+				}
+				event.preventDefault();		
+			}	
 		}
 		
 		
