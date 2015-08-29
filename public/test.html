@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Test</title>
+	<link rel="stylesheet" href="lib/codemirror.css">
+	<link rel="stylesheet" href="theme/neo.css">
+
+	<script src="lib/codemirror.js"></script>
+	<script src="mode/javascript/javascript.js"></script>
+</head>
+<body>
+
+<div id="code"></div>
+<script type="text/javascript">
+	
+	window.onload = function() {
+	 editor = CodeMirror(document.getElementById("code"), {
+				    lineNumbers: true,
+				    mode: "javascript",
+				    theme: "neo",
+				     value: "function myScript(){return 100;}\n",
+				  });
+	}
+</script>
+
+</body>
+</html>

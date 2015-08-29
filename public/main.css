@@ -3,130 +3,213 @@
 	margin: 0px;
 }
 
-body{
+html, body{
+	height: 100% !important;
+	width:100% !important;
+	margin: 0px !important;
+	padding: 0px !important;
+	background-color: yellow !important;
+	font-family: 'Open Sans', sans-serif !important;
+	overflow: hidden;
+}
+
+.vresizer {
+    display: table-cell;
+    width: 1px;
+    background-color: #E8E8E8;
+    cursor: col-resize;
+}
+
+.CodeMirror{
+	height: 100% !important;
+}
+
+.kcell {
+    display: table-cell;
+    padding: 0px 10px;
+}
+
+.ktoolbar {
+    display: table;
+    width: 100%;
+    height: 50px;
+    background-color: #FAFAFA;
+    position: relative;
+    box-sizing: border-box;
+    border-bottom: 1px solid #E8E8E8;
+}
+
+.kworkarea{
+	display: table;
+	width: 100%;
+	border-spacing: 0px;
+	border-collapse: separate;
+	background: #fff;
 	height: 100%;
-	width:100%;
-	font-size: 0;
-	margin: 0px auto;
-	font-family: 'Open Sans', sans-serif;
+	padding-top: 50px;
+	margin-top: -50px;
+	box-sizing: border-box;
 }
 
-header{
-  background-color: #FAFAFA;
-  height: 60px;
-  display: table;
-  width: 100%;
-  padding: 0px 20px;
-  box-sizing: border-box;
-margin-bottom: 2px;
-box-shadow: 0px 1px 1px #ccc;
+.kleftpan{
+    display: table-cell;
+    background: #fff;
+    width: 35%;
+    box-sizing: border-box;
+    position: relative;
 }
 
-/*.tools{
-  box-sizing: border-box;
-  display: table-cell;
-  height: 100%;
-  text-align: center;
-  width: 60px;
-  font-size: 24px;
-  text-shadow: 0px 1px 1px white;
-  padding: 0px 10px;
-}*/
-
-.color{
-  background-color: #FAFAFA;
-  width: 0px;
-  height: 0px;
-  border-radius: 3px;
-  border: 1px solid #CDCDCD;
-  box-shadow: 0px 1px 1px #FFF;
-  left: 0px;
-  top: 0px;
-  outline: none;
-  position: absolute;
-  z-index: 400;
-
-}
-/*
-.tools .color input[type="color"]{
-  background-color: #FAFAFA;
-  width: 22px;
-  height: 22px;
-  border-radius: 3px;
-  border: 1px solid #CDCDCD;
-  box-shadow: 0px 1px 1px #FFF;
-  position: absolute;
-  left: 0px;
-  top: 0px;
-  outline: none;
-}*/
-
-.span5{
-  display: table-cell;
-  box-sizing: border-box;
-  width: 50%;
-  height: 100%;
-  padding: 10px;
+.krightpan{
+	display: table-cell;       
+	background: #fff;
+	box-sizing: border-box;
+	width: 65%;
 }
 
-.main{
+.kvertical{
+    height: 100%;
+    width: 100%;
+    position: absolute;
 }
 
-.spanv{
-  box-sizing: border-box;  
-  display: table-cell;
-  height: 100%;
-  vertical-align: middle;
-  text-align: center;
-  width: 60px;
-  font-size: 24px;
-  text-shadow: 0px 1px 1px white;
-  padding: 0px 10px;
+.hresizer{
+    height: 1px;
+    width: 100%;
+    box-sizing: border-box;
+    cursor: row-resize;
+    background-color: #E8E8E8;
 }
 
-.spanv strong{
-	color: #0088CC;
+.ktoprow{
+    height: 50%;
+    width: 100%;
+    box-sizing: border-box;
+    background-color: #f4eeee;
+    overflow: scroll;
+    position: relative;
 }
 
-.spanv i{
+.kbottomrow{
+    height: 50%;
+    width: 100%;
+    box-sizing: border-box;
+    overflow: scroll;
+}
+
+iframe{
+	border: none;
+	/*border-left: 1px solid #DDD;*/
+}
+
+.ktoprow:after{
+	content: "CSS Style";
+	position: absolute;
+	z-index: 100;
+	bottom: 5px;
+	right: 5px;
+	background-color: rgba(0,0,0,0.1);
+	padding: 2px 6px;
+	border-radius: 4px;
+	border: 1px solid #AAA;
+	text-shadow: 0px 1px 1px #FFF;
+	font-size: 0.8em;
+}
+
+.kbottomrow:after{
+	content: "HTML Content";
+	position: absolute;
+	z-index: 100;
+	bottom: 5px;
+	right: 5px;
+	background-color: rgba(0,0,0,0.1);
+	padding: 2px 6px;
+	border-radius: 4px;
+	border: 1px solid #AAA;
+	text-shadow: 0px 1px 1px #FFF;
+	font-size: 0.8em;
+}
+
+.krightpan:after{
+	content: "Output";
+	position: absolute;
+	z-index: 100;
+	bottom: 12px;
+	right: 8px;
+	background-color: rgba(0,0,0,0.1);
+	padding: 2px 6px;
+	border-radius: 4px;
+	border: 1px solid #AAA;
+	text-shadow: 0px 1px 1px #FFF;
+	font-size: 0.8em;
+}
+
+.logo{
+    width: 100px;
+    padding-left: 20px;
+    color: #0088CC;
+    font-size: 24px;
+    text-shadow: 0px 1px 1px white;
+    line-height: 49px;
+}
+
+.logo i{
 	font-style: normal;
 	color: yellowgreen;
 }
 
-.fileInputs{
-  position: relative;
-  width: 100%;
-  height: 100%;
-  box-sizing: border-box; 
-  border: 1px solid #DDDDDD;
-  border-radius: 4px;
+.fileName {
+	width: 500px;
+    box-sizing: border-box;
+    position: relative;
+    padding: 0px;
+    padding-top: 13px;
+}
+.fileName input[type="text"]{
+    border: 1px solid #DDD;
+    width: 100%;
+    height: 38px;
+    padding: 0px 10px;
+    border-radius: 4px;
+    box-sizing: border-box;
+    margin-top: -7px;
+    position: absolute;
+    outline: none;
 }
 
-.fileInputs input[type="text"]{
-	outline: none;
-}
-
-.fileInputs button{
+.fileName button{
   height: 100%;
   border-radius: 3px;
   right: 10px;
   border: none;
   background-color: #0088CC;
   color: white;
-  padding: 0px 15px;
+  padding: 0px 10px;
   outline: none;
   cursor: pointer;
   margin-left: 5px;
 }
 
 .button_group{
-  position: relative;
-  padding: 4px;
-  padding-right: 8px;
-  box-sizing: border-box;
-  height: 100%;
-  display: inline-block;
-  float: right;
+	position: absolute;
+    box-sizing: border-box;
+    height: 25px;
+    padding: 0px;
+    right: 0px;
+    margin-top: -1px;
+    margin-right: 8px;
+}
+
+
+#save{
+  background-color: #86B526;
+}
+
+#share{
+  background-color: #E33258;
+}
+
+#load{
+	background-color: #0088CC;	
 }
 
 #share:before{
@@ -147,6 +230,80 @@ box-shadow: 0px 1px 1px #ccc;
 	content: "\f16b" !important;	
 }
 
+.toolbarspacer{
+	width: 10px;
+}
+
+.fb-like{
+	margin-top: 14px;
+    position: absolute !important;
+    right: 20px;
+}
+/*
+header{
+  background-color: #FAFAFA;
+  height: 48px;
+  display: table;
+  width: 100%;
+  padding: 0px 20px;
+  box-sizing: border-box;
+  margin-bottom: 2px;
+  box-shadow: 0px 1px 1px #ccc;
+}
+
+.color{
+  background-color: #FAFAFA;
+  width: 0px;
+  height: 0px;
+  border-radius: 3px;
+  border: 1px solid #CDCDCD;
+  box-shadow: 0px 1px 1px #FFF;
+  left: 0px;
+  top: 0px;
+  outline: none;
+  position: absolute;
+  z-index: 400;
+
+}
+
+
+
+.fileInputs{
+    position: relative;
+    width: 100%;
+    height: 36px;
+    box-sizing: border-box;
+    border: 1px solid #DDDDDD;
+    border-radius: 4px;
+    margin-top: 6px;
+}
+
+.fileInputs input[type="text"]{
+	border: none;
+    width: 100%;
+    position: absolute;
+    height: 100%;
+    padding: 0px 10px;
+    border-radius: 4px;
+}
+
+.fileInputs button{
+  height: 100%;
+  border-radius: 3px;
+  right: 10px;
+  border: none;
+  background-color: #0088CC;
+  color: white;
+  padding: 0px 10px;
+  outline: none;
+  cursor: pointer;
+  margin-left: 5px;
+}
+
+
+
+
+
 header button:hover{
 	background: -webkit-linear-gradient(top, rgba(255, 255, 255, .2) 0%, rgba(255, 255, 255, 0.1) 100%);
 }
@@ -155,55 +312,31 @@ header button:hover{
 	text-align: right;
 }
 
-.span5 input[type="text"]{
- position: absolute;
- box-sizing: border-box; 
- width: 100%;
- height: 100%;
- border: none;
- border-radius: 4px;
- padding: 0px 10px;
-}
 
-#save{
-  background-color: yellowgreen;
-}
-
-#share{
-  background-color: #E33258;
-}
-
-#load{
-	background-color: #0088CC;
-}
 
 .zero{
 	font-size: 0px;
 }
 
-.pan_left{
-	display: inline-block;
-	vertical-align: top;
-	width: 40%;
-	font-size: 14px;
+.clean{
+	padding: 0px !important;
 }
 
-.pan_right{
-	display: inline-block;
-	vertical-align: top;
-	width: 60%;
-	font-size: 14px;
-	box-sizing: border-box;
+.clean-right{
+	    padding-right: 0px !important;
 }
+
 
 .css_container{
 	position: relative;
+	border-bottom: 1px solid #E0E0E0;
 }
+
 .css_container:after{
 	content: "CSS Style";
 	position: absolute;
 	z-index: 100;
-	bottom: 5px;
+	top: 5px;
 	right: 5px;
 	background-color: rgba(0,0,0,0.1);
 	padding: 2px 6px;
@@ -215,12 +348,13 @@ header button:hover{
 
 .html_container{
 	position: relative;
+	padding-top: 24px;
 }
 .html_container:after{
 	content: "HTML Content";
 	position: absolute;
 	z-index: 100;
-	bottom: 5px;
+	top: 5px;
 	right: 5px;
 	background-color: rgba(0,0,0,0.1);
 	padding: 2px 6px;
@@ -246,11 +380,10 @@ header button:hover{
 	text-shadow: 0px 1px 1px #FFF;
 	font-size: 0.8em;
 }
-.pan_right iframe{
+iframe{
 	border: none;
 	border-left: 1px solid #DDD;
 	border-bottom: 1px solid #DDD;
-	
 }
 
 .editor{
@@ -263,4 +396,4 @@ header button:hover{
 
 .container{
 	border-bottom: 1px solid #E0E0E0;
-}
+}*/
