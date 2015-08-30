@@ -221,7 +221,7 @@ iframe{
 #load:before{
 	font-family: FontAwesome;
 	margin-right: 7px;
-	content: "\f114" !important;	
+	content: "\f16b" !important;	
 }
 
 #save:before{
@@ -234,21 +234,38 @@ iframe{
 	width: 10px;
 }
 
+.mask{
+	position: absolute;
+	width: 7px;
+	height: 100%;
+	z-index: 1000;
+}
+
+.social{
+	position: relative;
+}
+
 .fb-like{
-	margin-top: 14px;
     position: absolute !important;
     right: 20px;
+    top: 14px;	
 }
-/*
-header{
-  background-color: #FAFAFA;
-  height: 48px;
-  display: table;
-  width: 100%;
-  padding: 0px 20px;
-  box-sizing: border-box;
-  margin-bottom: 2px;
-  box-shadow: 0px 1px 1px #ccc;
+
+.status{
+    color: #5F5F5F;
+    text-shadow: 1px 1px 1px white;
+    font-size: 12px;
+    padding-left: 21px;	
+}
+
+.status b{
+	color: #0088CC;
+}
+
+.status i{
+	font-style: normal;
+	font-weight: bold;
+	color: #E33258;
 }
 
 .color{
@@ -262,9 +279,23 @@ header{
   top: 0px;
   outline: none;
   position: absolute;
-  z-index: 400;
+  z-index: 4000;
 
 }
+
+/*
+header{
+  background-color: #FAFAFA;
+  height: 48px;
+  display: table;
+  width: 100%;
+  padding: 0px 20px;
+  box-sizing: border-box;
+  margin-bottom: 2px;
+  box-shadow: 0px 1px 1px #ccc;
+}
+
+
 
 
 

@@ -1,7 +1,9 @@
-// var cssEditor = null;
+var cssEditor = null;
+var myPicker = null;
 
 $(document).ready(function(){
 
+	var compileCount = 0;
 	var drag = {};
 
 	$("#hresizer").mousedown(function(e){
@@ -45,15 +47,19 @@ $(document).ready(function(){
 
 	// CodeMirror
 
-	 var cssEditor = CodeMirror(document.getElementById("ktoprow"), {
+	  cssEditor = CodeMirror(document.getElementById("ktoprow"), {
 				    lineNumbers: true,
 				    mode: "css",
 				    theme: "neo",
 				    lineWrapping: true,
 				    smartIndent: true,
+				    extraKeys: {"Ctrl-Space": "autocomplete"},
 				  });
 
 	cssEditor.on("change", compile);
+	cssEditor.on("keydown", keyDownValueChange);
+	cssEditor.on("cursorActivity", colorSelected);
+	cssEditor.on("mousedown", hidePicker);
 
 	 var htmlEditor = CodeMirror(document.getElementById("kbottomrow"), {
 				    lineNumbers: true,
@@ -68,6 +74,7 @@ $(document).ready(function(){
 	$("#load").on('click', loadFile);
 	$("#share").on('click', sharePublic);
 	$("#save").on('click', null, false, saveOnDropbox);
+
 
 	var client = null; 
 
@@ -96,12 +103,17 @@ $(document).ready(function(){
 			success: function(files) {
 				var lnk = files[0].link.replace("https://www.dropbox.com", "");
 				readFromDropbox(lnk);
+				compileCount = 0;
+				$("#status").html("");
     		}
 		};
 		Dropbox.choose(options);
 	}
 
 	function saveOnDropbox(func){
+
+		$("#status").html("Saving <b>" + $("#UIName").val() + "</b>");
+
 		if($("#UIName").val().trim() === ""){
 			alert("Please give a name to your UI snippet");
 			$("#UIName").focus();
@@ -120,16 +132,16 @@ $(document).ready(function(){
 				if (error) {
 					alert('Error: ' + error);
 				} else {
-					if(typeof func === 'function'){
-
+					if(typeof func === "function"){
 						func();
 					}
+
+					$("#status").html("Saved <b>" + $("#UIName").val() + "</b>");
 				}
 			});		 
 		}
 	}
 	function sharePublic(){
-
 		if($("#UIName").val().trim() === ""){
 			alert("Please give a name");
 			$("#UIName").focus();
@@ -138,7 +150,7 @@ $(document).ready(function(){
 		console.log("Share Public");
 
 		var func = function(){
-			console.log("Making Public");
+			$("#status").html("<i>" + $("#UIName").val() + "</i> generating URL");			
 			makePublic();
 		}
 
@@ -168,6 +180,12 @@ $(document).ready(function(){
 	}		
 
 	function compile () {
+		compileCount++;
+
+		if(compileCount > 2){
+			$("#status").html("<i>" + $("#UIName").val() + "</i> updated");			
+		}
+
         var d = frames[0].document;
         d.open();
         d.write(
@@ -180,9 +198,92 @@ $(document).ready(function(){
             '<\/body><\/html>'
         );
         d.close();
-	}		 
+	}	
+
+	function makePublic(){
+		if(client.isAuthenticated()){
+			client.makeUrl($("#UIName").val(), {longUrl: true}, function(error, shareUrl){
+				$("#shareUrl").val(shareUrl.url.replace("https://www.dropbox.com", location.origin + location.pathname + "?share="));
+				$("#status").html("You may copy <b>URL</b>");
+
+				// var func = function(data){
+				// 	$("#shareUrl").val(data);
+				// }
+
+				// makeTinyUrl(shareUrl.url.replace("https://www.dropbox.com", location.origin + location.pathname + "?share="), func);
+				
+			});
+		}
+	}	
+
+	// function makeTinyUrl(url, func)
+	// 	{
+	// 		func(url);
+	// 	    $.getJSON('https://json-tinyurl.appspot.com/?url=' + url + '&callback=?', func);
+	// 	} 
+
+	function keyDownValueChange(){
+		var selectedText = cssEditor.getSelection();
+		if(selectedText && (event.keyCode === 38 || event.keyCode === 40)){
+			if(/^-?\d+$/.test(selectedText)){
+				if(event.keyCode === 40){
+					cssEditor.replaceSelection("" + (parseInt(selectedText)-1), "around");
+				} else if(event.keyCode === 38){
+					cssEditor.replaceSelection("" +  (parseInt(selectedText)+1), "around");
+				}
+				event.preventDefault();	
+			} else if (/^-?\d+px$/i.test(selectedText)){
+				var val = selectedText.substring(0, selectedText.length-2);
+				if(event.keyCode === 40){
+					cssEditor.replaceSelection("" + (parseInt(val)-1) + "px", "around");
+				} else if(event.keyCode === 38){
+					cssEditor.replaceSelection("" +  (parseInt(val)+1) + "px", "around");
+				}
+				event.preventDefault();	
+			} else if(/^-?\d+\.?\d+EM$/i.test(selectedText)){
+				var val = selectedText.substring(0, selectedText.length-2);
+				val = parseFloat(val);
+				if(event.keyCode === 40){
+					cssEditor.replaceSelection("" + (val-0.05).toFixed(2) + "em", "around");
+				} else if(event.keyCode === 38){
+					cssEditor.replaceSelection("" +  (val+0.05).toFixed(2) + "em", "around");
+				}
+				event.preventDefault();		
+			}	
+		}
+	}
+
+
 
 });
+
+	function colorSelected(){
+		var myPicker = $("#colorPicker").get(0).color;
+		var selectedColor = cssEditor.getSelection();
+		if(checkHex(selectedColor)){
+			$("#colorPicker").css("left", event.pageX);
+			$("#colorPicker").css("top", event.pageY);
+			myPicker.fromString(selectedColor);
+		  	myPicker.showPicker();
+		}
+	}	
+
+	function hidePicker(){
+		var myPicker = $("#colorPicker").get(0).color;
+		myPicker.hidePicker();
+	}
+
+
+function checkHex(color) {
+    return /(^[0-9A-F]{6}$)|(^[0-9A-F]{3}$)/i.test(color);
+}
+
+function colorChanged(color){
+	var selected = cssEditor.getSelection();
+	if(checkHex(selected)){
+		cssEditor.replaceSelection(color.toString(), "around");
+	}
+}	
 
 // $(document).ready(function(){
 // 	// var jsEditor = CodeMirror.fromTextArea($("#js_editor").get(0), {mode: "javascript", lineNumbers: true});
@@ -190,69 +291,24 @@ $(document).ready(function(){
 // 	var htmlEditor = CodeMirror.fromTextArea($("#html_editor").get(0), {mode: "htmlmixed", lineNumbers: true, theme: "neo"});
 
 	
-// function makeTinyUrl(url, func)
-// {
-// 	func(url);
-//     // $.getJSON('https://json-tinyurl.appspot.com/?url=' + url + '&callback=?', func);
-// }
 
 
 
 
 
 
-// 	function colorSelected(){
-// 		var myPicker = $("#colorPicker").get(0).color;
-// 		var selectedColor = cssEditor.getSelection();
-// 		if(checkHex(selectedColor)){
-// 			$("#colorPicker").css("left", event.pageX);
-// 			$("#colorPicker").css("top", event.pageY);
-// 			myPicker.fromString(selectedColor);
-// 		  myPicker.showPicker();
-// 		}
-// 	}
-
-// 	function hidePicker(){
-// 		var myPicker = $("#colorPicker").get(0).color;
-// 		myPicker.hidePicker();
-// 	}
 
 
-// 	function keyDownValueChange(){
-// 		var selectedText = cssEditor.getSelection();
-// 		if(selectedText && (event.keyCode === 38 || event.keyCode === 40)){
-// 			if(/^-?\d+$/.test(selectedText)){
-// 				if(event.keyCode === 40){
-// 					cssEditor.replaceSelection("" + (parseInt(selectedText)-1), "around");
-// 				} else if(event.keyCode === 38){
-// 					cssEditor.replaceSelection("" +  (parseInt(selectedText)+1), "around");
-// 				}
-// 				event.preventDefault();	
-// 			} else if (/^-?\d+px$/i.test(selectedText)){
-// 				var val = selectedText.substring(0, selectedText.length-2);
-// 				if(event.keyCode === 40){
-// 					cssEditor.replaceSelection("" + (parseInt(val)-1) + "px", "around");
-// 				} else if(event.keyCode === 38){
-// 					cssEditor.replaceSelection("" +  (parseInt(val)+1) + "px", "around");
-// 				}
-// 				event.preventDefault();	
-// 			} else if(/^-?\d+\.?\d+EM$/i.test(selectedText)){
-// 				var val = selectedText.substring(0, selectedText.length-2);
-// 				val = parseFloat(val);
-// 				if(event.keyCode === 40){
-// 					cssEditor.replaceSelection("" + (val-0.05).toFixed(2) + "em", "around");
-// 				} else if(event.keyCode === 38){
-// 					cssEditor.replaceSelection("" +  (val+0.05).toFixed(2) + "em", "around");
-// 				}
-// 				event.preventDefault();		
-// 			}	
-// 		}
-// 	}
 
-// 	cssEditor.on("keydown", keyDownValueChange);
+
+
+
+
+
+// 	
 // 	cssEditor.on("change", compile);
-// 	cssEditor.on("mousedown", hidePicker);
-// 	cssEditor.on("dblclick", colorSelected);
+// 	
+// 	
 // 	htmlEditor.on("change", compile);
 
 
@@ -262,18 +318,7 @@ $(document).ready(function(){
 
 
 
-// 	function makePublic(){
-// 		if(client.isAuthenticated()){
-// 			client.makeUrl($("#UIName").val(), {longUrl: true}, function(error, shareUrl){
-// 				var func = function(data){
-// 					$("#shareUrl").val(data);
-// 				}
 
-// 				makeTinyUrl(shareUrl.url.replace("https://www.dropbox.com", location.origin + location.pathname + "?share="), func);
-				
-// 			});
-// 		}
-// 	}
 
 
 
@@ -284,14 +329,3 @@ $(document).ready(function(){
 
 // });
 
-
-// function checkHex(color) {
-//     return /(^[0-9A-F]{6}$)|(^[0-9A-F]{3}$)/i.test(color);
-// }
-
-// function colorChanged(color){
-// 	var selected = cssEditor.getSelection();
-// 	if(checkHex(selected)){
-// 		cssEditor.replaceSelection(color.toString(), "around");
-// 	}
-// }
