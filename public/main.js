@@ -33,7 +33,7 @@ $(document).ready(function(){
 			diff = e.pageX;
 			$(".kleftpan").css("width", diff + "px")
 
-			diff = $(".kworkarea").width() - $(".kleftpan").width() - 1;
+			diff = $(".kworkarea").width() - $(".kleftpan").width() - 4;
 			$(".krightpan").css("width", diff + "px")
 		}		
 	});
@@ -44,6 +44,9 @@ $(document).ready(function(){
 		drag.hdragging = false;
 	});
 
+
+	diff = $(".kworkarea").width() - $(".kleftpan").width() - 4;
+	$(".krightpan").css("width", diff + "px")
 
 	// CodeMirror
 

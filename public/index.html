@@ -11,6 +11,7 @@
 	<!-- CodeMirror -->
 	<link rel="stylesheet" href="lib/codemirror.css">
 	<link rel="stylesheet" href="theme/neo.css">
+	<link rel="stylesheet" href="theme/pastel-on-dark.css">
 	<link rel="stylesheet" href="addon/hint/show-hint.css">
 
 	<link href='https://fonts.googleapis.com/css?family=Open+Sans:400,700,300,600' rel='stylesheet' type='text/css'>
@@ -43,6 +44,17 @@
   ga('send', 'pageview');
 
 </script>
+
+<script>
+window.addEventListener("beforeunload", function (e) {
+    var confirmationMessage = 'It looks like you have been editing something.';
+    confirmationMessage += 'If you leave before saving, your changes will be lost.';
+
+    (e || window.event).returnValue = confirmationMessage; //Gecko + IE
+    return confirmationMessage; //Gecko + Webkit, Safari, Chrome etc.
+});
+</script>
+
 </head>
 <body>
 <div id="fb-root"></div>
