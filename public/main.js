@@ -35,7 +35,7 @@ $(document).ready(function(){
 
 			diff = $(".kworkarea").width() - $(".kleftpan").width() - 4;
 			$(".krightpan").css("width", diff + "px")
-		}		
+		}
 	});
 
 	$(document).mouseup(function(e){
@@ -79,10 +79,10 @@ $(document).ready(function(){
 	$("#save").on('click', null, false, saveOnDropbox);
 
 
-	var client = null; 
+	var client = null;
 
 	function init(){
-	 	
+
 	 	client = new Dropbox.Client({ key: 'm0ut1fiorueyzy8' });
 		client.authenticate(function(error, data) {
 		    if (error) {
@@ -141,7 +141,7 @@ $(document).ready(function(){
 
 					$("#status").html("Saved <b>" + $("#UIName").val() + "</b>");
 				}
-			});		 
+			});
 		}
 	}
 	function sharePublic(){
@@ -153,7 +153,7 @@ $(document).ready(function(){
 		console.log("Share Public");
 
 		var func = function(){
-			$("#status").html("<i>" + $("#UIName").val() + "</i> generating URL");			
+			$("#status").html("<i>" + $("#UIName").val() + "</i> generating URL");
 			makePublic();
 		}
 
@@ -162,7 +162,7 @@ $(document).ready(function(){
 
 	function readFromDropbox(id){
 		$.ajax({
-		  url: "https://dl.dropboxusercontent.com/" + id,
+		  url: "https://dl.dropboxusercontent.com" + id,
 		  data: {},
 		  success: function(data){
 		  	var file = JSON.parse(data);
@@ -180,13 +180,13 @@ $(document).ready(function(){
 	        results = regex.exec(location.search);
 
 	    return results == null ? "" : decodeURIComponent(results[1].replace(/\+/g, " "));
-	}		
+	}
 
 	function compile () {
 		compileCount++;
 
 		if(compileCount > 2){
-			$("#status").html("<i>" + $("#UIName").val() + "</i> updated");			
+			$("#status").html("<i>" + $("#UIName").val() + "</i> updated");
 		}
 
         var d = frames[0].document;
@@ -196,12 +196,12 @@ $(document).ready(function(){
             '<html><head><style type="text/css">'+
             '*{margin: 0px; padding: 0px;}' +
             cssEditor.getValue() +
-            '<\/style><\/head><body>' + 
+            '<\/style><\/head><body>' +
             htmlEditor.getValue() +
             '<\/body><\/html>'
         );
         d.close();
-	}	
+	}
 
 	function makePublic(){
 		if(client.isAuthenticated()){
@@ -214,16 +214,16 @@ $(document).ready(function(){
 				// }
 
 				// makeTinyUrl(shareUrl.url.replace("https://www.dropbox.com", location.origin + location.pathname + "?share="), func);
-				
+
 			});
 		}
-	}	
+	}
 
 	// function makeTinyUrl(url, func)
 	// 	{
 	// 		func(url);
 	// 	    $.getJSON('https://json-tinyurl.appspot.com/?url=' + url + '&callback=?', func);
-	// 	} 
+	// 	}
 
 	function keyDownValueChange(){
 		var selectedText = cssEditor.getSelection();
@@ -234,7 +234,7 @@ $(document).ready(function(){
 				} else if(event.keyCode === 38){
 					cssEditor.replaceSelection("" +  (parseInt(selectedText)+1), "around");
 				}
-				event.preventDefault();	
+				event.preventDefault();
 			} else if (/^-?\d+px$/i.test(selectedText)){
 				var val = selectedText.substring(0, selectedText.length-2);
 				if(event.keyCode === 40){
@@ -242,7 +242,7 @@ $(document).ready(function(){
 				} else if(event.keyCode === 38){
 					cssEditor.replaceSelection("" +  (parseInt(val)+1) + "px", "around");
 				}
-				event.preventDefault();	
+				event.preventDefault();
 			} else if(/^-?\d+\.?\d+EM$/i.test(selectedText)){
 				var val = selectedText.substring(0, selectedText.length-2);
 				val = parseFloat(val);
@@ -251,8 +251,8 @@ $(document).ready(function(){
 				} else if(event.keyCode === 38){
 					cssEditor.replaceSelection("" +  (val+0.05).toFixed(2) + "em", "around");
 				}
-				event.preventDefault();		
-			}	
+				event.preventDefault();
+			}
 		}
 	}
 
@@ -269,7 +269,7 @@ $(document).ready(function(){
 			myPicker.fromString(selectedColor);
 		  	myPicker.showPicker();
 		}
-	}	
+	}
 
 	function hidePicker(){
 		var myPicker = $("#colorPicker").get(0).color;
@@ -286,14 +286,13 @@ function colorChanged(color){
 	if(checkHex(selected)){
 		cssEditor.replaceSelection(color.toString(), "around");
 	}
-}	
+}
 
 // $(document).ready(function(){
 // 	// var jsEditor = CodeMirror.fromTextArea($("#js_editor").get(0), {mode: "javascript", lineNumbers: true});
 // 	cssEditor = CodeMirror.fromTextArea($("#css_editor").get(0), {mode: "css", lineNumbers: true, theme: "neo"});
 // 	var htmlEditor = CodeMirror.fromTextArea($("#html_editor").get(0), {mode: "htmlmixed", lineNumbers: true, theme: "neo"});
 
-	
 
 
 
@@ -308,10 +307,11 @@ function colorChanged(color){
 
 
 
-// 	
+
+//
 // 	cssEditor.on("change", compile);
-// 	
-// 	
+//
+//
 // 	htmlEditor.on("change", compile);
 
 
@@ -331,4 +331,3 @@ function colorChanged(color){
 
 
 // });
-
