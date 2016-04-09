@@ -192,8 +192,8 @@ $(document).ready(function(){
         var d = frames[0].document;
         d.open();
         d.write(
-            '<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional //EN" "http://www.w3.org/TR/html4/loose.dtd">'+
-            '<html><head><style type="text/css">'+
+            '<!DOCTYPE HTML>'+
+            '<html><head><meta name="viewport" content="width=device-width, initial-scale=1"><style type="text/css">'+
             '*{margin: 0px; padding: 0px;}' +
             cssEditor.getValue() +
             '<\/style><\/head><body>' +

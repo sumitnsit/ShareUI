@@ -3,6 +3,7 @@
 <head>
 	<title>Share UI</title>
 	<meta name="mobile-web-app-capable" content="yes">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<link rel="icon" sizes="196x196" href="images/icon.png">
 	<link rel="apple-touch-icon" href="images/icon.png">
   
@@ -15,7 +16,7 @@
 	<link rel="stylesheet" href="addon/hint/show-hint.css">
 
 	<link href='https://fonts.googleapis.com/css?family=Open+Sans:400,700,300,600' rel='stylesheet' type='text/css'>
-	<link href="//maxcdn.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css" rel="stylesheet">
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
 	
 	<!-- CodeMirror -->
@@ -58,21 +59,23 @@ window.addEventListener("beforeunload", function (e) {
 </head>
 <body>
 <div id="fb-root"></div>
-<script>(function(d, s, id) {
-  var js, fjs = d.getElementsByTagName(s)[0];
-  if (d.getElementById(id)) return;
-  js = d.createElement(s); js.id = id;
-  js.src = "//connect.facebook.net/en_GB/sdk.js#xfbml=1&version=v2.4&appId=1440232149552112";
-  fjs.parentNode.insertBefore(js, fjs);
-}(document, 'script', 'facebook-jssdk'));</script>
+<script>
+// (function(d, s, id) {
+//   var js, fjs = d.getElementsByTagName(s)[0];
+//   if (d.getElementById(id)) return;
+//   js = d.createElement(s); js.id = id;
+//   js.src = "//connect.facebook.net/en_GB/sdk.js#xfbml=1&version=v2.4&appId=1440232149552112";
+//   fjs.parentNode.insertBefore(js, fjs);
+// }(document, 'script', 'facebook-jssdk'));
+</script>
 <input id="colorPicker" class="color {required:false, onImmediateChange:'colorChanged(this);', valueElement:''}">
 	<div class="ktoolbar">
 		<div class="logo kcell">Share<i>UI</i></div>
 		<div class="fileName kcell">
 			<input type="text" placeholder="UI Name" id="UIName" />
 			<div class="button_group">
-				<button id="load" alt="Load snippet from your Dropbox">Load from Dropbox</button>    
-				<button id="save">Save to Dropbox</button> 
+				<button id="load" alt="Load snippet from your Dropbox">Load</button>    
+				<button id="save">Save</button> 
 			</div>
 		</div>
 		<div class="toolbarspacer kcell"></div>
@@ -83,9 +86,9 @@ window.addEventListener("beforeunload", function (e) {
 	      	</div>   
 		</div>
 		<div class="status kcell" id="status"></div>
-		<div class="social kcell">
+<!-- 		<div class="social kcell">
 			<div class="fb-like" data-href="https://www.facebook.com/uishare" data-layout="button" data-action="like" data-show-faces="false" data-share="false"></div>
-		</div>
+		</div> -->
 	</div>
 	<div class="kworkarea">
 		<div id="kleftpan" class="kleftpan">

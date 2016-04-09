@@ -92,7 +92,7 @@ html, body{
     width: 100%;
     box-sizing: border-box;
     background-color: #f4eeee;
-    overflow: scroll;
+    overflow: hidden;
     position: relative;
 }
 
@@ -100,7 +100,7 @@ html, body{
     height: 50%;
     width: 100%;
     box-sizing: border-box;
-    overflow: scroll;
+    overflow: hidden;
 }
 
 iframe{
@@ -288,6 +288,44 @@ iframe{
   position: absolute;
   z-index: 4000;
 
+}
+
+@media screen and (max-width: 750px) {
+    .kleftpan{
+    	display: none;
+    }
+
+    .vresizer{
+    	display: none;
+    }
+
+    .krightpan:after{
+    	display: none;
+    }
+
+    #save{
+    	display: none;
+    }
+
+    #UIName{
+    	display: none;
+    }
+
+    #shareUrl{
+    	display: none;
+    }
+
+    .social{
+    	display: none;
+    }
+
+    .status{
+    	display: none;
+    }
+
+    .toolbarspacer {
+    	display: none;
+    }
 }
 
 /*
