@@ -47,18 +47,18 @@
 </script>
 
 <script>
-window.addEventListener("beforeunload", function (e) {
-    var confirmationMessage = 'It looks like you have been editing something.';
-    confirmationMessage += 'If you leave before saving, your changes will be lost.';
+// window.addEventListener("beforeunload", function (e) {
+//     var confirmationMessage = 'It looks like you have been editing something.';
+//     confirmationMessage += 'If you leave before saving, your changes will be lost.';
 
-    (e || window.event).returnValue = confirmationMessage; //Gecko + IE
-    return confirmationMessage; //Gecko + Webkit, Safari, Chrome etc.
-});
+//     (e || window.event).returnValue = confirmationMessage; //Gecko + IE
+//     return confirmationMessage; //Gecko + Webkit, Safari, Chrome etc.
+// });
 </script>
 
 </head>
 <body>
-<div id="fb-root"></div>
+<!-- <div id="fb-root"></div> -->
 <script>
 // (function(d, s, id) {
 //   var js, fjs = d.getElementsByTagName(s)[0];
@@ -69,27 +69,47 @@ window.addEventListener("beforeunload", function (e) {
 // }(document, 'script', 'facebook-jssdk'));
 </script>
 <input id="colorPicker" class="color {required:false, onImmediateChange:'colorChanged(this);', valueElement:''}">
-	<div class="ktoolbar">
-		<div class="logo kcell">Share<i>UI</i></div>
-		<div class="fileName kcell">
-			<input type="text" placeholder="UI Name" id="UIName" />
+
+<div class="toolbar">
+  <div class="tools logo">
+  Share<i>UI</i>
+  </div>
+   <div class="tools inputs">
+     <input type="text" placeholder="UI Name" id="UIName"></input>
+	 <button id="load">Load</button>
+     <button id="save">Save</button>
+  </div>
+   <div class="tools inputs">
+     <input type="text" id="shareLink"></input>
+	 <button id="share">Share</button>     
+   </div>
+   <div class="tools status" id="status"></div>
+</div>
+
+<!-- 	<div class="ktoolbar">
+			<div class="logo kcell">Share<i>UI</i></div>
+		<div class="kcell k-1-5">
+			<input type="text" class="inputText" placeholder="UI Name" id="UIName" />
 			<div class="button_group">
 				<button id="load" alt="Load snippet from your Dropbox">Load</button>    
 				<button id="save">Save</button> 
-			</div>
+			</div> 
 		</div>
-		<div class="toolbarspacer kcell"></div>
-		<div class="fileName kcell">
-	  		<input type="text" placeholder="Share URL" id="shareUrl"/>
+		<div class="kcell k-1-5">
+	  		<input type="text" class="inputText" placeholder="Share URL" id="shareUrl"/>
 	      	<div class="button_group">
 	        	<button id="share">Share</button>    
 	      	</div>   
 		</div>
-		<div class="status kcell" id="status"></div>
-<!-- 		<div class="social kcell">
+		<div class="kcell k-1-5" id="status">
+			
+		</div>
+
+		<div class="kcell cellPusher"></div> -->
+<!--  		<div class="social kcell">
 			<div class="fb-like" data-href="https://www.facebook.com/uishare" data-layout="button" data-action="like" data-show-faces="false" data-share="false"></div>
-		</div> -->
-	</div>
+		</div>  -->
+<!-- 	</div> -->
 	<div class="kworkarea">
 		<div id="kleftpan" class="kleftpan">
 			<div class="kvertical">

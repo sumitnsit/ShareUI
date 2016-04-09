@@ -182,6 +182,11 @@ $(document).ready(function(){
 	    return results == null ? "" : decodeURIComponent(results[1].replace(/\+/g, " "));
 	}
 
+	setTimeout(function(){
+		// Hide the address bar!
+		window.scrollTo(0, 1);
+	}, 0);
+	
 	function compile () {
 		compileCount++;
 
