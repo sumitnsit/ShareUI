@@ -8,8 +8,9 @@ html, body{
 	width:100% !important;
 	margin: 0px !important;
 	padding: 0px !important;
-	font-family: 'Open Sans', sans-serif !important;
 	overflow: hidden;
+	position: relative;
+	font-family: 'Open Sans', sans-serif !important;
 }
 
 .toolbar{
@@ -130,7 +131,9 @@ html, body{
 
 iframe{
 	border: none;
-	/*border-left: 1px solid #DDD;*/
+	-webkit-overflow-scrolling:touch !important;
+	overflow: scroll !important;
+
 }
 
 .ktoprow:after{
@@ -376,7 +379,7 @@ iframe{
     display: none;
   }
   
-  .inputs button#save, .inputs button#share{
+  .inputs button#save, .inputs button#share, .krightpan:after{
    display: none; 
   }
   

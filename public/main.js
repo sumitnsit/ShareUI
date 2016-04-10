@@ -186,7 +186,7 @@ $(document).ready(function(){
 		// Hide the address bar!
 		window.scrollTo(0, 1);
 	}, 0);
-	
+
 	function compile () {
 		compileCount++;
 
@@ -198,7 +198,7 @@ $(document).ready(function(){
         d.open();
         d.write(
             '<!DOCTYPE HTML>'+
-            '<html><head><meta name="viewport" content="width=device-width, initial-scale=1"><style type="text/css">'+
+            '<html><head><meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" /><style type="text/css">'+
             '*{margin: 0px; padding: 0px;}' +
             cssEditor.getValue() +
             '<\/style><\/head><body>' +
@@ -207,6 +207,8 @@ $(document).ready(function(){
         );
         d.close();
 	}
+
+		window.scrollTo(0,1);
 
 	function makePublic(){
 		if(client.isAuthenticated()){
