@@ -1,129 +1,87 @@
-<!DOCTYPE HTML>
+<!DOCTYPE html>
 <html>
-<head>
-	<title>Share UI</title>
-	<meta name="mobile-web-app-capable" content="yes">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-<meta name="apple-mobile-web-app-capable" content="yes">
-	<link rel="icon" sizes="196x196" href="images/icon.png">
-	<link rel="apple-touch-icon" href="images/icon.png">
-  
-	<link rel="stylesheet" type="text/css" href="main.css">
+  <head>
+    <meta charset="utf-8">
+    <title>UI Share</title>
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <link rel="icon" sizes="196x196" href="images/icon.png">
+    <link rel="apple-touch-icon" href="images/icon.png">
 
-	<!-- CodeMirror -->
-	<link rel="stylesheet" href="lib/codemirror.css">
-	<link rel="stylesheet" href="theme/neo.css">
-	<link rel="stylesheet" href="theme/pastel-on-dark.css">
-	<link rel="stylesheet" href="addon/hint/show-hint.css">
+    <!-- 3rd Paty Libraries -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
+	  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+    <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,700,300,600' rel='stylesheet' type='text/css'>
+    <script type="text/javascript" src="https://www.dropbox.com/static/api/2/dropins.js" id="dropboxjs" data-app-key="m0ut1fiorueyzy8"></script>
+  	<script src="https://www.dropbox.com/static/api/dropbox-datastores-1.1-latest.js" type="text/javascript"></script>
+    <script type="text/javascript" src="lib/jscolor.js"></script>
 
-	<link href='https://fonts.googleapis.com/css?family=Open+Sans:400,700,300,600' rel='stylesheet' type='text/css'>
-	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
-	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
-	
-	<!-- CodeMirror -->
-	<script src="lib/codemirror.js"></script>
-	<script src="mode/javascript/javascript.js"></script>
-	<script src="mode/css/css.js"></script>
-	<script src="mode/xml/xml.js"></script>
-	<script src="mode/htmlmixed/htmlmixed.js"></script>
-	<script src="addon/selection/active-line.js"></script>
-	<script src="addon/hint/show-hint.js"></script>
+    <!-- Code Mirror -->
+    <link rel="stylesheet" href="lib/codemirror.css">
+    <link rel="stylesheet" href="addon/hint/show-hint.css">
+    <link rel="stylesheet" href="theme/neo.css">
 
+    <!-- App Libraries -->
+    <link rel="stylesheet" href="css/app.css" media="screen" title="no title" charset="utf-8">
+  </head>
+  <body>
 
-	<script type="text/javascript" src="https://www.dropbox.com/static/api/2/dropins.js" id="dropboxjs" data-app-key="m0ut1fiorueyzy8"></script>	
-	<script src="https://www.dropbox.com/static/api/dropbox-datastores-1.1-latest.js" type="text/javascript"></script>
-<script type="text/javascript" src="lib/jscolor.js"></script>
+    <div class="app">
+      <nav>
+        <div class="logo">
+        UI<i>Snippet</i>
+        </div>
+         <div class="file-tool">
+           <input type="text" placeholder="UI Name" id="UIName"></input>
+      	   <button id="load">Load</button>
+           <button id="save">Save</button>
+        </div>
+         <div class="file-tool share-tools">
+           <input type="text" id="shareLink" readonly placeholder="Share URL"></input>
+        	 <button id="shareUI">Share UI</button>
+           <button id="shareCode">Share Code</button>
+         </div>
+         <input type="checkbox" checked id="liveCk"></input>
+         <label for="liveCk" class="liveLb">Live Update</label>
+         <div id="filler"></div>
+         <div class="tools status" id="status"></div>
 
-	<script type="text/javascript" src="main.js"></script>
-  
-  <script>
-  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+         <span style="margin-right: 10px;">Console</span>
+         <input type="checkbox" checked id="logCk" onchange="app.handleConsole(this)"></input>
+        <label for="logCk" id="logLb"></label>
+      </nav>
+    <main>
+      <div id="aside">
+        <input id="colorPicker" class="color {width:243, height:150, position:'right',
+            borderColor:'#FFF', insetColor:'#FFF', backgroundColor:'#666', required:false, onImmediateChange:'colorChanged(this);', valueElement:''}">
+      	<div class="cssEditor" id="cssEditor"></div>
+        <div id="asideDivider"></div>
+        <div class="htmlEditor" id="htmlEditor"></div>
+      </div>
+      <div id="asideRz"></div>
+      <section>
+        <div class="target" id="target">
+          <iframe id="iframe" width="100%" height="100%"></iframe>
+        </div>
 
-  ga('create', 'UA-53695754-1', 'auto');
-  ga('send', 'pageview');
+        <div id="logRz"></div>
+        <div id="log">> Welcome to UI Share
 
-</script>
+        </div>
+      </section>
+    </main>
+    </div>
 
-<script>
-// window.addEventListener("beforeunload", function (e) {
-//     var confirmationMessage = 'It looks like you have been editing something.';
-//     confirmationMessage += 'If you leave before saving, your changes will be lost.';
+    <!-- Code Mirror -->
+    <script src="lib/codemirror.js"></script>
+    <script src="mode/css/css.js"></script>
+    <script src="mode/javascript/javascript.js"></script>
+  	<script src="mode/xml/xml.js"></script>
+    <script src="mode/htmlmixed/htmlmixed.js"></script>
+    <script type="text/javascript" src="js/app.js"></script>
+    <script src="addon/selection/active-line.js"></script>
+	  <script src="addon/hint/show-hint.js"></script>
 
-//     (e || window.event).returnValue = confirmationMessage; //Gecko + IE
-//     return confirmationMessage; //Gecko + Webkit, Safari, Chrome etc.
-// });
-</script>
-
-</head>
-<body>
-<!-- <div id="fb-root"></div> -->
-<script>
-// (function(d, s, id) {
-//   var js, fjs = d.getElementsByTagName(s)[0];
-//   if (d.getElementById(id)) return;
-//   js = d.createElement(s); js.id = id;
-//   js.src = "//connect.facebook.net/en_GB/sdk.js#xfbml=1&version=v2.4&appId=1440232149552112";
-//   fjs.parentNode.insertBefore(js, fjs);
-// }(document, 'script', 'facebook-jssdk'));
-</script>
-<input id="colorPicker" class="color {required:false, onImmediateChange:'colorChanged(this);', valueElement:''}">
-
-<div class="toolbar">
-  <div class="tools logo">
-  Share<i>UI</i>
-  </div>
-   <div class="tools inputs">
-     <input type="text" placeholder="UI Name" id="UIName"></input>
-	 <button id="load">Load</button>
-     <button id="save">Save</button>
-  </div>
-   <div class="tools inputs">
-     <input type="text" id="shareLink"></input>
-	 <button id="share">Share</button>     
-   </div>
-   <div class="tools status" id="status"></div>
-</div>
-
-<!-- 	<div class="ktoolbar">
-			<div class="logo kcell">Share<i>UI</i></div>
-		<div class="kcell k-1-5">
-			<input type="text" class="inputText" placeholder="UI Name" id="UIName" />
-			<div class="button_group">
-				<button id="load" alt="Load snippet from your Dropbox">Load</button>    
-				<button id="save">Save</button> 
-			</div> 
-		</div>
-		<div class="kcell k-1-5">
-	  		<input type="text" class="inputText" placeholder="Share URL" id="shareUrl"/>
-	      	<div class="button_group">
-	        	<button id="share">Share</button>    
-	      	</div>   
-		</div>
-		<div class="kcell k-1-5" id="status">
-			
-		</div>
-
-		<div class="kcell cellPusher"></div> -->
-<!--  		<div class="social kcell">
-			<div class="fb-like" data-href="https://www.facebook.com/uishare" data-layout="button" data-action="like" data-show-faces="false" data-share="false"></div>
-		</div>  -->
-<!-- 	</div> -->
-	<div class="kworkarea">
-		<div id="kleftpan" class="kleftpan">
-			<div class="kvertical">
-				<div class="ktoprow" id="ktoprow"></div>
-				<div id="hresizer" class="hresizer"></div>
-				<div class="kbottomrow" id="kbottomrow"></div>
-			</div>
-		</div>
-		<div id="vresizer" class="vresizer"></div>		
-		<div id="krightpan" class="krightpan">
-			<div class="mask"></div>
-			<iframe id="target" width="100%" height="100%"></iframe>
-		</div>
-	</div>
-</body>
+  </body>
 </html>
