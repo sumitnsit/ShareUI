@@ -260,6 +260,7 @@ app.handleLogRzMouseDown = function(event){
   window.onmousemove = app.handleLogRzMouseMove;
   var console = $$.get("log");
   console.style.transition = "none";
+  $(".mask").css("z-index", 10);
 };
 
 app.handleConsole = function(e){
@@ -295,6 +296,7 @@ app.handleAsideDividerMouseMove = function(event){
 
 app.handleAsideRzMouseDown = function (event){
   window.onmousemove = app.handleAsideRzMouseMove;
+  $(".mask").css("z-index", 10);
 }
 
 app.handleAsideRzMouseMove = function (event) {
@@ -311,6 +313,7 @@ app.handleAsideRzMouseMove = function (event) {
 
 app.handleMouseUp = function (event) {
   window.onmousemove = null;
+  $(".mask").css("z-index", 0);
 }
 
 var $$ = {};
