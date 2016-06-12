@@ -265,14 +265,15 @@ app.handleLogRzMouseDown = function(event){
 
 app.handleConsole = function(e){
     var logWin = $$.get("log");
-    logWin.style.transition = "0.1s height ease-in-out";
+$(logWin).slideToggle(300);
     if(!e.checked){
-      app.settings.consoleHeight = logWin.style.height;
-      $$.get("logRz").style.display = "none";
-      logWin.style.height = "0px";
+
+      // app.settings.consoleHeight = logWin.style.height;
+      // $$.get("logRz").style.display = "none";
+      // logWin.style.height = "0px";
     } else {
-      $$.get("logRz").style.display = "block";
-        logWin.style.height = app.settings.consoleHeight;
+      // $$.get("logRz").style.display = "block";
+        // logWin.style.height = app.settings.consoleHeight;
     }
 };
 

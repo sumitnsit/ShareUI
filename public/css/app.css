@@ -292,10 +292,9 @@ section{
 
 #logRz{
   height: 4px;
-  background-color: #FAFAFA;
+  background-color: #aaa;
   cursor: ns-resize;
-  border-bottom: 1px solid #E6E6E6;
-  border-top: 1px solid #E6E6E6;
+  border-top: 1px solid #222;
 }
 
 #log{
