@@ -112,7 +112,7 @@ function shareUI(){
           }
       });
 
-    var response = app.dropboxclient.writeFile($("#UIName").val() + ".html", data, function (error) {
+    var response = app.dropboxclient.writeFile("public_ui/" + $("#UIName").val() + ".html", data, function (error) {
       if (error) {
         app.customLogE('Error: ' + error);
       } else {
@@ -239,7 +239,7 @@ function compile (func) {
       d.open();
       var HTML =
           '<!DOCTYPE HTML>'+
-          '<html><head><title>ShareUI</title><meta name="viewport" content="width=devicewidth, minimal-ui"><link rel="apple-touch-icon" href="images/icon.png"><meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" /><style type="text/css">'+
+          '<html><head><meta name="viewport" content = "width = device-width, initial-scale = 1.0, minimum-scale = 1, maximum-scale = 1, user-scalable = no" /><meta name="apple-mobile-web-app-title" content="ShareUI" /><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-status-bar-style" content="black" /><style type="text/css">'+
           '*{margin: 0px; padding: 0px;}' +
           app.cssCodeMirror.getValue() +
           '<\/style><script>console.log = document.customLog; console.error = document.customLogE; </script><\/head><body>' +
