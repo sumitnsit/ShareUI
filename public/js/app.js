@@ -14,6 +14,15 @@ function getParameterByName(name) {
 // generates share url
 function makePublic(name, shareType){
   name = name || $("#UIName").val();
+
+    app.dropboxclient.authenticate(function(error, data) {
+        if (error) {
+          console.log("Authentication Error");
+          console.log(error);
+          return false;
+        }
+    });
+
   if(app.dropboxclient.isAuthenticated()){
     app.dropboxclient.makeUrl(name, {longUrl: true}, function(error, shareUrl){
       var url = (shareType)?"UI.html?UI=":"?share=";
@@ -83,6 +92,8 @@ function keyDownValueChange(){
 }
 
 function shareUI(){
+
+
   if($("#UIName").val().trim() === ""){
     app.customLogE("Please provide a UI name to share");
     alert("Please provide a UI name to share");
@@ -92,6 +103,15 @@ function shareUI(){
 
   var func = function(data){
     app.customLog("Saving UI on dropbox...");
+
+      app.dropboxclient.authenticate(function(error, data) {
+          if (error) {
+            console.log("Authentication Error");
+            console.log(error);
+            return false;
+          }
+      });
+
     var response = app.dropboxclient.writeFile($("#UIName").val() + ".html", data, function (error) {
       if (error) {
         app.customLogE('Error: ' + error);
@@ -219,7 +239,7 @@ function compile (func) {
       d.open();
       var HTML =
           '<!DOCTYPE HTML>'+
-          '<html><head><meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" /><style type="text/css">'+
+          '<html><head><title>ShareUI</title><meta name="viewport" content="width=devicewidth, minimal-ui"><link rel="apple-touch-icon" href="images/icon.png"><meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" /><style type="text/css">'+
           '*{margin: 0px; padding: 0px;}' +
           app.cssCodeMirror.getValue() +
           '<\/style><script>console.log = document.customLog; console.error = document.customLogE; </script><\/head><body>' +
@@ -390,13 +410,18 @@ $(document).ready(function(){
 
   (function init(){
     app.dropboxclient = new Dropbox.Client({ key: 'm0ut1fiorueyzy8'});
-    app.dropboxclient.authenticate(function(error, data) {
-        if (error) {
-          console.log("Authentication Error");
-          console.log(error);
-          return false;
-        }
-    });
+
+    window.onbeforeunload = function() {
+      return "Are you sure you want to navigate away?";
+    }
+
+    // app.dropboxclient.authenticate(function(error, data) {
+    //     if (error) {
+    //       console.log("Authentication Error");
+    //       console.log(error);
+    //       return false;
+    //     }
+    // });
   })();
 
   if(getParameterByName("share")){
