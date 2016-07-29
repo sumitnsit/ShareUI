@@ -93,7 +93,6 @@ function keyDownValueChange(){
 
 function shareUI(){
 
-
   if($("#UIName").val().trim() === ""){
     app.customLogE("Please provide a UI name to share");
     alert("Please provide a UI name to share");
@@ -116,7 +115,7 @@ function shareUI(){
       if (error) {
         app.customLogE('Error: ' + error);
       } else {
-        makePublic($("#UIName").val() + ".html", "UI");
+        makePublic("public_ui/" + $("#UIName").val() + ".html", "UI");
       }
     });
   }
@@ -193,6 +192,13 @@ function saveOnDropbox(func){
 			return;
 		}
 
+    app.dropboxclient.authenticate(function(error, data) {
+        if (error) {
+          console.log("Authentication Error");
+          console.log(error);
+          return false;
+        }
+    });
 		// init();
 
 		if(app.dropboxclient.isAuthenticated()){
